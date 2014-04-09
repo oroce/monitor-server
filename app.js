@@ -26,5 +26,6 @@ godot.createServer({
         url: "plaintext://graphite.purposeindustries.co:2003",
         prefix: "test.godot"
       })
+      .console()
   ]
 }).listen(1337);
