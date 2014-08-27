@@ -16,8 +16,7 @@ var reactor = godot.reactor()
         format: function(data) {
           var meta = data.meta;
           return {
-            name: format('%s.%s.%s.%s',
-              data.host.replace(/\./g, '_'),
+            name: format('%s.%s.%s',
               meta.app,
               meta.action,
               meta.status),
