@@ -1,10 +1,38 @@
 var godot = require("godot");
+var format = require('util').format;
 var Flatten = require( "./lib/flatten" );
+var influxdb = require('godot-influxdb');
 godot.reactor.register( "flatten", Flatten );
-godot.createServer({
+godot.reactor.register('influxdb', influxdb);
+var reactor = godot.reactor()
+      .hasMeta('all', 'action', 'status')
+      .flatten()
+      .influxdb({
+        username: 'root',
+        password: 'root',
+        database: 'metrics',
+        port: 8083,
+        host: 'localhost',
+        format: function(data) {
+          var meta = data.meta;
+          return {
+            name: format('%s.%s.%s.%s',
+              data.host.replace(/\./g, '_'),
+              meta.app,
+              meta.action,
+              meta.status),
+            metric: {
+              time: data.time,
+              metric: 1
+            }
+          };
+        }
+      })
+      .console();
+var server = godot.createServer({
   type: "tcp",
   reactors: [
-    godot.reactor()
+    /*godot.reactor()
       .on( "reactor:error", console.error.bind(console, "reactor:error" ) )
       .map(function( data ){
         if( data.meta  && data.meta.plugin === "load" ){
@@ -21,11 +49,8 @@ godot.createServer({
       .movingAverage({
         duration: 10*1000,
         type: "simple"
-      })
-      .graphite({
-        url: "plaintext://graphite.purposeindustries.co:2003",
-        prefix: "test.godot"
-      })
-      .console()
+      })*/
+    reactor
   ]
-}).listen(1337);
+});
+server.listen(1337);

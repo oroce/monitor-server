@@ -11,6 +11,7 @@
   "author": "",
   "license": "BSD-2-Clause",
   "dependencies": {
-    "godot": "~0.7.5"
+    "godot": "~0.7.5",
+    "godot-influxdb": "^0.2.0"
   }
 }
