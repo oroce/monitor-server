@@ -53,4 +53,5 @@ var server = godot.createServer({
     reactor
   ]
 });
+server.on('reactor:error', console.error.bind(console));
 server.listen(1337);
