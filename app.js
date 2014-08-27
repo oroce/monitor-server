@@ -11,7 +11,7 @@ var reactor = godot.reactor()
         username: 'root',
         password: 'root',
         database: 'metrics',
-        port: 8083,
+        port: 8086,
         host: 'localhost',
         format: function(data) {
           var meta = data.meta;
