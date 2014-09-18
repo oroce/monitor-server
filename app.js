@@ -32,6 +32,11 @@ var reactor = godot.reactor()
 var performanceReactor = godot.reactor()
     .hasMeta('performance.entryType')
     .influxdb({
+      username: 'root',
+      password: 'root',
+      database: 'metrics',
+      port: 8086,
+      host: 'localhost',
       format: function(data) {
         var perf = unflatten(data.meta).performance;
         perf.time = data.time;
