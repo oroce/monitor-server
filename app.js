@@ -1,6 +1,7 @@
 var godot = require("godot");
 var format = require('util').format;
 var Flatten = require( "./lib/flatten" );
+var unflatten = require('flat').unflatten;
 var influxdb = require('godot-influxdb');
 godot.reactor.register( "flatten", Flatten );
 godot.reactor.register('influxdb', influxdb);
