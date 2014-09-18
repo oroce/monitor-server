@@ -28,6 +28,18 @@ var reactor = godot.reactor()
         }
       })
       .console();
+var performanceReactor = godot.reactor()
+    .hasMeta('performance.entryType')
+    .influxdb({
+      format: function(data) {
+        var perf = unflatten(data.meta).performance;
+        perf.time = data.time;
+        return {
+          name: ['performance', perf.entryType, perf.initiatorType].join('.'),
+          metric: perf
+        }
+      }
+    });
 var server = godot.createServer({
   type: "tcp",
   reactors: [
@@ -49,7 +61,8 @@ var server = godot.createServer({
         duration: 10*1000,
         type: "simple"
       })*/
-    reactor
+    reactor,
+    performanceReactor
   ]
 });
 server.on('reactor:error', console.error.bind(console));
